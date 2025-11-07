@@ -35,15 +35,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.password = make_password(password)
         user.save()
 
-        # Automatically assign "student" role if registering normally
-        student_role, _ = Role.objects.get_or_create(name='student')
-        user.roles.add(student_role)
-
+        # Create student profile if data provided
         if student_data:
             StudentProfile.objects.create(user=user, **student_data)
 
         return user
-
 
 
 #user profile view serializer
